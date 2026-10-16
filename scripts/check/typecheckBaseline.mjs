@@ -48,7 +48,8 @@ export function parseTscOutput(raw) {
   for (const line of String(raw).split("\n")) {
     const match = TSC_ERROR_LINE.exec(line);
     if (!match) continue;
-    const [, file, , , code] = match;
+    const [, rawFile, , , code] = match;
+    const file = rawFile.replaceAll("\\", "/");
     if (!counts[file]) counts[file] = {};
     counts[file][code] = (counts[file][code] || 0) + 1;
   }

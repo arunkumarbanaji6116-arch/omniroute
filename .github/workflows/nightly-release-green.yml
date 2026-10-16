@@ -63,7 +63,7 @@ jobs:
     name: Validate active release branch
     # On a push, only run for release/* pushes — a push to main is handled by the
     # main-green job below. Schedule/dispatch always run (they validate the highest release).
-    if: ${{ github.event_name != 'push' || startsWith(github.ref_name, 'release/') }}
+    if: github.repository == 'diegosouzapw/OmniRoute' && (github.event_name != 'push' || startsWith(github.ref_name, 'release/'))
     # Dynamic runner: with USE_VPS_RUNNER=true (release window / on-demand pre-flight)
     # this runs on the dedicated VPS runner — clean env (no operator OMNIROUTE_API_KEY,
     # no local noauth CLIs => zero machine-specific false positives) and no contention.
@@ -236,7 +236,7 @@ jobs:
     name: Validate main branch
     # On a push, only run for a push to main — a push to release/* is handled by
     # release-green above. Schedule/dispatch always run (they also sweep main).
-    if: ${{ github.event_name != 'push' || github.ref_name == 'main' }}
+    if: github.repository == 'diegosouzapw/OmniRoute' && (github.event_name != 'push' || github.ref_name == 'main')
     runs-on: ${{ (vars.USE_VPS_RUNNER == 'true' && fromJSON('["self-hosted","omni-build"]')) || 'ubuntu-latest' }}
     env:
       JWT_SECRET: ci-nightly-secret-with-sufficient-length-for-validation

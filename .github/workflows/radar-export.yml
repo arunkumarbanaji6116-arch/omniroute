@@ -33,6 +33,7 @@ env:
 
 jobs:
   publish-export:
+    if: github.repository == 'diegosouzapw/OmniRoute'
     runs-on: ubuntu-latest
     permissions:
       contents: write # gh release upload — clobra o asset estável do export

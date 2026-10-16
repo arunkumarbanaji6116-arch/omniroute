@@ -33,7 +33,12 @@ function runTsc() {
     return execFileSync(
       process.platform === "win32" ? "npx.cmd" : "npx",
       ["tsc", "--pretty", "false", "--noEmit", "-p", TSCONFIG],
-      { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, cwd: ROOT }
+      {
+        encoding: "utf8",
+        maxBuffer: 64 * 1024 * 1024,
+        cwd: ROOT,
+        shell: process.platform === "win32",
+      }
     );
   } catch (err) {
     if (err.stdout) return String(err.stdout);
